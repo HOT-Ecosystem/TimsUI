@@ -73,7 +73,92 @@ const  getValueSetSummaryByCode = async( theServer, theCode) => {
     return myJson;
 }
 
+parse_valuesets= function(json) {
+    string_rep = "" 
+    
+    for (obj in json.entry) {
+        thing = json.entry[obj]
+        
+        string_rep +=  
+          "URL: " + thing.resource.url + "   " +
+          "NAME: " + thing.resource.name + "<br>" 
+        
+    }
+    
+    return(string_rep)
+}
 
+/**
+{"fullUrl":"http://127.0.0.1:8001/fhir/ValueSet/LL1000-0",
+    "resource":{"resourceType":"ValueSet",
+                "id":"LL1000-0"
+                "meta":{"versionId":"1",
+                        "lastUpdated":"2022-12-16T14:50:54.767-07:00",
+                        "tag":[{"system":"http://terminology.hl7.org/CodeSystem/v3-ObservationValue",
+                            "code":"SUBSETTED",
+                            "display":"Resource encoded in summary mode"}]},
+                "url":"http://loinc.org/vs/LL1000-0",
+                "identifier":[{
+                    "system":"urn:ietf:rfc:3986",
+                    "value":"urn:oid:1.3.6.1.4.1.12009.10.1.165"}],
+                "version":"Beta.1",
+                "name":"PhenX05_13_30D bread amt",
+                "status":"active",  
+                "publisher":"Regenstrief Institute, Inc.",
+                "contact":[{"name":"Regenstrief Institute, Inc.",
+                            "telecom":[{"system":"url","value":"https://loinc.org"}]}]
+    },
+    "search":{"mode":"match"}}
+{"fullUrl":"http://127.0.0.1:8001/fhir/ValueSet/LL1001-8",
+
+    "resource":{"resourceType":"ValueSet","id":"LL1001-8","meta":{"versionId":"1","lastUpdated":"2022-12-16T14:50:54.793-07:00","tag":[{"system":"http://terminology.hl7.org/CodeSystem/v3-ObservationValue","code":"SUBSETTED","display":"Resource encoded in summary mode"}]},"url":"http://loinc.org/vs/LL1001-8","identifier":[{"system":"urn:ietf:rfc:3986","value":"urn:oid:1.3.6.1.4.1.12009.10.1.166"}],"version":"Beta.1","name":"PhenX05_14_30D freq amts","status":"active","publisher":"Regenstrief Institute, Inc.","contact":[{"name":"Regenstrief Institute, Inc.","telecom":[{"system":"url","value":"https://loinc.org"}]}]},"search":{"mode":"match"}}{"fullUrl":"http://127.0.0.1:8001/fhir/ValueSet/LL1002-6",
+    "resource":{"resourceType":"ValueSet","id":"LL1002-6","meta":{"versionId":"1","lastUpdated":"2022-12-16T14:50:54.804-07:00","tag":[{"system":"http://terminology.hl7.org/CodeSystem/v3-ObservationValue","code":"SUBSETTED","display":"Resource encoded in summary mode"}]},"url":"http://loinc.org/vs/LL1002-6","identifier":[{"system":"urn:ietf:rfc:3986","value":"urn:oid:1.3.6.1.4.1.12009.10.1.167"}],"version":"Beta.1","name":"PhenX05_15_30D cereal amt","status":"active","publisher":"Regenstrief Institute, Inc.","contact":[{"name":"Regenstrief Institute, Inc.","telecom":[{"system":"url","value":"https://loinc.org"}]}]},"search":{"mode":"match"}}{"fullUrl":"http://127.0.0.1:8001/fhir/ValueSet/LL1003-4",
+
+**/
+
+query_loaded_valuesets = async(theServer) => {
+    const request_string = theServer + "/ValueSet?_summary=true" 
+
+    try {
+        const response = await fetch(request_string, myHeaders)
+        if (!response.ok) {
+            alert("ERROR status:" + response.status + 
+               ", text: \"" + response.statusText + "\"" +
+               "\n\nCheck the code and selected vocabulary.  Most likely the code \"" + theCode + 
+               "\"  wasn't found in the vocabulary \"" + theSystem + "\".");
+        } else {
+            const myJson = await response.json();
+            var newWin = window.open()
+            newWin.document.write("SERVER:" + theServer + "<br>" + parse_valuesets(myJson))
+            newWin.document.close()
+        }
+    }
+    catch (error)  {
+        alert(error + "\n That server, \"" + theServer + "\" isn't happy. Please try another, or ask for help.");
+    }
+}
+
+query_loaded_valuesets_by_system = async(theServer, theSystem) => {
+    const request_string = theServer + "/ValueSet?_system=" + theSystem
+
+    try {
+        const response = await fetch(request_string, myHeaders)
+        if (!response.ok) {
+            alert("ERROR status:" + response.status + 
+               ", text: \"" + response.statusText + "\"" +
+               "\n\nCheck the code and selected vocabulary.  Most likely the code \"" + theCode + 
+               "\"  wasn't found in the vocabulary \"" + theSystem + "\".");
+        } else {
+            const myJson = await response.json();
+            var newWin = window.open()
+            newWin.document.write("SERVER:" + theServer + "<br>" + "SYSTEM:" + theSystem + "<br>" + "REQUEST:" + request_string + "<br>" +  parse_valuesets(myJson))
+            newWin.document.close()
+        }
+    }
+    catch (error)  {
+        alert(error + "\n That server, \"" + theServer + "\" isn't happy. Please try another, or ask for help.");
+    }
+}
 
 
 /**

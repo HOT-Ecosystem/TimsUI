@@ -50,7 +50,16 @@
             <td colspan=2>&nbsp </td>
             <td></td>
             <td colspan=2>
-                <button type="submit" onClick="query_loaded_codesystems(document.getElementById('server').value)">Show Server Capabilities (IGs) (TBD) (pop-up)</button>
+                <button type="submit" >
+                   <!--  onClick="query_loaded_codesystems(document.getElementById('server').value)"> -->
+                    Show Server Capabilities (IGs) (TBD) (pop-up)</button>
+            </td>
+        </tr>
+        <tr>
+            <td colspan=2>&nbsp </td>
+            <td></td>
+            <td colspan=2>
+                <button type="submit" onClick="query_loaded_valuesets(document.getElementById('server').value)">Show Loaded ValueSets (pop-up)</button>
             </td>
         </tr>
         <tr> <td colspan=3>&nbsp </td> </tr>
@@ -73,7 +82,9 @@
             <td colspan=2>&nbsp </td>
             <td></td>
             <td colspan=2>
-                <button type="submit" onClick="query_loaded_codesystems(document.getElementById('server').value)">Show Loaded ValueSets (pop-up) (TBD)</button>
+                <button type="submit" onClick="query_loaded_valuesets_by_system(document.getElementById('server').value, 
+                                                                                document.getElementById('system').value)">
+                    Show Loaded ValueSets (pop-up)</button>
             </td>
         </tr>
         <tr> <td colspan=3>&nbsp </td> </tr>
@@ -174,7 +185,7 @@
     </p>
     <p>
         Sample codes for ICD: A02.20, A03 <br>
-        Sample codes for LOINC: 66678-4 (has a definition), LA6668-3, LA13838-0 (has value sets) <br>
+        Sample codes for LOINC: 66678-4 (has a second label), LA6668-3, LA13838-0 (has value sets) <br>
         Sample codes for MONDO: MONDO:0000001 MONDO:8000001<br>
         Sample codes for SO: SO:0000001<br>
         Sample codes for HPO: HP:0000001, HP:4000001<br>
