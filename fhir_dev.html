@@ -12,7 +12,8 @@
     </head>
 
     <body>
-    <center><h1>Query a FHIR Terminology Server  </h1></center>
+    <center><h1>Query a FHIR Terminology Server <em>for Codes</em> </h1></center>
+    see also <a href="value_sets.html">Query ValueSets</a><br>
     </p>
     <center>
     <table>
@@ -33,7 +34,7 @@
 
                     <option value="http://127.0.0.1:8080/fhir">local 8080</option>
                     <option value="http://127.0.0.1:8001/fhir">local 8001</option>
-                    <option value="http://tx.fhir.org">Tx.Fhir.org</option>
+                    <option value="http://tx.hl7.org">tx.hl7.org</option>
                     <option value="http://hapi.fhir.org">hapi.fhir.org</option>
                     <option value="http://loinc.fhir.org">loinc.fhir.org</option>
                 </select> 
@@ -55,13 +56,6 @@
                     Show Server Capabilities (IGs) (TBD) (pop-up)</button>
             </td>
         </tr>
-        <tr>
-            <td colspan=2>&nbsp </td>
-            <td></td>
-            <td colspan=2>
-                <button type="submit" onClick="query_loaded_valuesets(document.getElementById('server').value)">Show Loaded ValueSets (pop-up)</button>
-            </td>
-        </tr>
         <tr> <td colspan=3>&nbsp </td> </tr>
         <tr>
             <td colspan=2><em>Choose a CodeSystem.</em> </td>
@@ -77,15 +71,6 @@
               <option value="http://purl.bioontology.org/ontology/RXNORM">RxNorm Drugs</option>
               <option value="http://purl.bioontology.org/ontology/RXNORMI">RxNorm Ingredients</option>
             </select> </td>
-        </tr>
-        <tr>
-            <td colspan=2>&nbsp </td>
-            <td></td>
-            <td colspan=2>
-                <button type="submit" onClick="query_loaded_valuesets_by_system(document.getElementById('server').value, 
-                                                                                document.getElementById('system').value)">
-                    Show Loaded ValueSets (pop-up)</button>
-            </td>
         </tr>
         <tr> <td colspan=3>&nbsp </td> </tr>
         <tr>

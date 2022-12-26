@@ -121,11 +121,78 @@ const  getValueSetSummaryByCode = async( theServer, theCode) => {
             myJson = await response.json();
             for (i in myJson['entry']) {
                 var resource = myJson['entry'][i]['resource']
-                text += "URL:  " + resource['url']   + ", "             
+                text += "URL:  " + resource['url']   + ""             
                 //text += "id:   " + resource['id']     + " \n"            
                 text += "NAME: " + resource['name'] + " \n"              
              }
              document.getElementById('output-value-set').value = text;
+        }
+    }
+    catch (error)  {
+        alert(error + "\n That server, \"" + theServer + "\" isn't happy. Please try another, or ask for help.");
+    }
+
+    return myJson;
+}
+/***
+
+{   
+    "resourceType":"Bundle",
+    "id":"d515cc74-9051-4073-87d1-0a3d0569f2f0",
+    "meta":{"lastUpdated":"2022-12-26T09:45:11.575-07:00"},
+    "type":"searchset",
+    "total":1,
+    "link":[{"relation":"self","url":"http://127.0.0.1:8001/fhir/ValueSet/?name=KaryotypicSex"}],
+    "entry":[
+        {"fullUrl":"http://127.0.0.1:8001/fhir/ValueSet/KaryotypicSex",
+         "resource":{
+            "resourceType":"ValueSet",
+            "id":"KaryotypicSex",
+            "meta":{"versionId":"1","lastUpdated":"2022-11-21T17:07:55.472-07:00"},
+            "text":{"status":"generated","div":"<div xmlns=\"http://www.w3.org/1999/xhtml\"><ul><li>Include all codes defined in <a href=\"CodeSystem-KaryotypicSex.html\"><code>https://github.com/phenopackets/core-ig/CodeSystem/KaryotypicSex</code></a></li></ul></div>"},
+            "url":"https://github.com/phenopackets/core-ig/ValueSet/KaryotypicSex",
+            "version":"0.1.0",
+            "name":"KaryotypicSex",
+            "title":"Karyotypic sex value set",
+            "status":"active",
+            "date":"2021-05-28T17:06:00-04:00",
+            "publisher":"Global Alliance for Genomics and Health - Clinical and Phenotypic Data Capture Work Stream",
+            "contact":[{"name":"Global Alliance for Genomics and Health - Clinical and Phenotypic Data Capture Work Stream",
+                        "telecom":[{"system":"url","value":"https://www.ga4gh.org/work_stream/clinical-phenotypic-data-capture-2/"}]}],
+            "description":"The karyotypic (chromosomal) sex of an individual",
+            "jurisdiction":[{"coding":[{"system":"urn:iso:std:iso:3166","code":"US"}]}],
+            "copyright":"[Global Alliance for Genomics and Health](https://www.ga4gh.org)",
+            "compose":{"include":[{"system":"https://github.com/phenopackets/core-ig/CodeSystem/KaryotypicSex"}]}},
+            "search":{"mode":"match"}
+        }
+      ]
+}
+***/
+const  getValueSetByName = async( theServer, theName) => {
+
+    const base_str = theServer + "/ValueSet/" 
+    const name_str = "?name=" + theName
+    const requestString = base_str +  name_str
+    var myJson=""
+    var text = ''
+    var response;
+    try {
+        response = await fetch(requestString, myHeaders)
+        my_desig = []
+        if (!response.ok) {
+            alert("ERROR status:" + response.status + 
+               ", text: \"" + response.statusText + "\"" +
+               "\n\nCheck the code and selected vocabulary.  Most likely the code \"" + theCode + 
+               "\"  wasn't found in the vocabulary \"" + theSystem + "\".");
+        } else {
+            myJson = await response.json();
+            i=0
+            var resource = myJson['entry'][i]['resource']
+            if (resource) {
+                document.getElementById('output-valueset-url').value = "URL:  " + resource['url'];             
+                document.getElementById('output-valueset-id').value =  "id:   " + resource['id'];            
+                document.getElementById('output-valueset-name').value = "NAME: " + resource['name'];              
+            }
         }
     }
     catch (error)  {
