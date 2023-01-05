@@ -245,3 +245,37 @@ const  getFhir = async( theServer, theSystem, theCode) => {
     }
 }
 
+parse_valuesets= function(json) {
+    string_rep = "" 
+    for (obj in json.entry) {
+        thing = json.entry[obj]
+        string_rep +=  
+          "URL: " + thing.resource.url + "   " +
+          "NAME: " + thing.resource.name + "<br>" 
+    }
+    return(string_rep)
+}
+
+query_loaded_IGs = async(theServer) =>  {
+    //const request_string = theServer + "/ImplementationGuide?_summary=true" 
+    const request_string = theServer + "/ImplementationGuide" 
+    alert(request_string)
+    myJson = await do_fetch(request_string)
+    alert(JSON.stringify(myJson)) 
+    //valueset_text = await loop_over_pages(myJson, parse_valuesets)
+    //var newWin = window.open()
+    //newWin.document.write(valueset_text);
+    //newWin.document.close()
+}
+
+query_loaded_SDs = async(theServer) =>  {
+    //const request_string = theServer + "/ImplementationGuide?_summary=true" 
+    const request_string = theServer + "/StructureDefinition" 
+    alert(request_string)
+    myJson = await do_fetch(request_string)
+    alert(JSON.stringify(myJson)) 
+    //valueset_text = await loop_over_pages(myJson, parse_valuesets)
+    //var newWin = window.open()
+    //newWin.document.write(valueset_text);
+    //newWin.document.close()
+}
