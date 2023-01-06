@@ -31,7 +31,7 @@
                     -->
 
                     <option value="http://20.119.216.32:8080/fhir">TIMS 8080/fhir</option>
-                    <option value="http://20.119.216.32:8001/fhir">TIMS Chris</option>
+                    <option value="http://20.119.216.32:8001/fhir">TIMS 8001</option>
 
 
                     <option value="http://127.0.0.1:8080/fhir">local 8080</option>
@@ -46,14 +46,14 @@
             <td colspan=2>&nbsp </td>
             <td></td>
             <td colspan=2>
-                <button type="submit" onClick="query_loaded_codesystems(document.getElementById('server').value)">Show Loaded CodeSystems (pop-up)</button>
+                <button type="submit" onClick="query_loaded_codesystems(document.getElementById('server').value)" disabled>Show Loaded CodeSystems (pop-up)</button>
             </td>
         </tr>
         <tr>
             <td colspan=2>&nbsp </td>
             <td></td>
             <td colspan=2>
-                <button type="submit" onClick="query_capabilities(document.getElementById('server').value)">Show Capabilities (pop-up, long)</button>
+                <button type="submit" onClick="query_capabilities(document.getElementById('server').value)" disabled>Show Capabilities (pop-up, long)</button>
             </td>
         </tr>
         <tr>
@@ -61,7 +61,7 @@
             <td></td>
             <td colspan=2>
                 <button type="submit" 
-                    onClick="query_loaded_IGs(document.getElementById('server').value)"> 
+                    onClick="query_loaded_IGs(document.getElementById('server').value)" disabled> 
                     Show Loaded IGs (Hapi doesn't keep them?) (pop-up)</button>
             </td>
         </tr>
@@ -70,7 +70,7 @@
             <td></td>
             <td colspan=2>
                 <button type="submit" 
-                    onClick="query_loaded_SDs(document.getElementById('server').value)"> 
+                    onClick="query_loaded_SDs(document.getElementById('server').value)" disabled> 
                     Show Loaded StructureDefinitions  (pop-up)</button>
             </td>
         </tr>
@@ -112,7 +112,7 @@
                 <button type="submit" onClick="getFhirDetail( 
                     document.getElementById('server').value, 
                     document.getElementById('system').value, 
-                    document.getElementById('code').value)" >Search, with detailed output (pop-up)</button>
+                    document.getElementById('code').value)" disabled >Search, with detailed output (pop-up)</button>
             </td>
         </tr>
         <tr>
@@ -155,7 +155,7 @@
             <td>
                 <button type="submit" onClick="getValueSetRawByCode( 
                     document.getElementById('server').value, 
-                    document.getElementById('code').value)">Search for ValueSets that contain this code. (raw pop-up)</button>
+                    document.getElementById('code').value)" disabled>Search for ValueSets that contain this code. (raw pop-up)</button>
             </td>
         </tr>
         <tr>
@@ -194,7 +194,7 @@
         Sample codes for HPO: HP:0000001, HP:4000001<br>
         Sample codes for SNOMED: 4557003, 84114007, 703272007, 703275009<br>
         Sample codes for RxNorm Drugs: 1656346<br>
-        Sample codes for RxNorm Ingredients: 1656328<br>
+        Sample codes for RxNorm Ingredients: 1656328, 69749<br>
     </p> <p>
     Many servers linked here use <a href="https://hapifhir.io/">HAPI-FHIR</a>,
     licensed under the <a href="https://hapifhir.io/hapi-fhir/license.html">Apache Software License 2.0.</a>

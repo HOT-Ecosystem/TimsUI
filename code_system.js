@@ -1,4 +1,10 @@
 
+const clearValueSetsDisplay = function()  {
+    document.getElementById('output-valueset-url').value = ""
+    document.getElementById('output-valueset-id').value = ""
+    document.getElementById('output-valueset-name').value = ""
+    document.getElementById('output-valueset-content').value = ""
+}
 
 do_fetch = async(url) => {
     try {
@@ -74,11 +80,10 @@ loop_over_pages = async(bundle, fn) => {
 
 const  getValueSetRawByCode = async( theServer, theCode) => {
 
-    const base_str = theServer + "/ValueSet/" 
-    const code_str = "?code=" + theCode
-    const requestString = base_str +  code_str
+    const requestString = theServer + "/ValueSet" + "?code=" + theCode
     var myJson=""
     var response;
+    alert(requestString)
     try {
         response = await fetch(requestString, myHeaders)
         my_desig = []
@@ -95,7 +100,7 @@ const  getValueSetRawByCode = async( theServer, theCode) => {
         }
     }
     catch (error)  {
-        alert(error + "\n That server, \"" + theServer + "\" isn't happy. Please try another, or ask for help.");
+        alert(error + "\n That server, \"" + theServer + "\" (or the browser) isn't happy. Please try another, or ask for help.");
     }
 
     return myJson;
@@ -103,6 +108,7 @@ const  getValueSetRawByCode = async( theServer, theCode) => {
 
 const  getValueSetSummaryByCode = async( theServer, theCode) => {
 
+    clearValueSetsDisplay();
     const base_str = theServer + "/ValueSet/" 
     const code_str = "?code=" + theCode
     const requestString = base_str +  code_str
@@ -121,9 +127,9 @@ const  getValueSetSummaryByCode = async( theServer, theCode) => {
             myJson = await response.json();
             for (i in myJson['entry']) {
                 var resource = myJson['entry'][i]['resource']
-                text += "URL:  " + resource['url']   + ""             
-                //text += "id:   " + resource['id']     + " \n"            
-                text += "NAME: " + resource['name'] + " \n"              
+                text +=  resource['url']   + " "             
+                //text += resource['id']     + " \n"            
+                text +=  resource['name'] + "\" \n"              
              }
              document.getElementById('output-value-set').value = text;
         }
@@ -168,16 +174,31 @@ const  getValueSetSummaryByCode = async( theServer, theCode) => {
       ]
 }
 ***/
-const  getValueSetByName = async( theServer, theName) => {
 
-    const base_str = theServer + "/ValueSet/" 
-    const name_str = "?name=" + theName
-    const requestString = base_str +  name_str
+const stringifyCompose = async(resource) => {
+
+    const comp_inc = resource['compose']['include'];              
+    var output='';
+    for (idx in comp_inc) {
+        system_part = comp_inc[idx]['system']
+        output += "CodeSystem: " + system_part + "\n"
+        concept_list = comp_inc[idx]['concept']
+        for (cpt_idx in concept_list) {
+            cpt = concept_list[cpt_idx]
+            output +=  "  code: " + cpt['code'] + " display: \"" + cpt['display'] + "\"\n"
+        }
+    }
+    return(output)
+}
+
+const  getValueSetByName = async( theServer, theName) => {
+    clearValueSetsDisplay();
+
+    const requestString = theServer + "/ValueSet" +  "?_content=" + theName + ""
     var myJson=""
-    var text = ''
-    var response;
     try {
         response = await fetch(requestString, myHeaders)
+        
         my_desig = []
         if (!response.ok) {
             alert("ERROR status:" + response.status + 
@@ -186,12 +207,55 @@ const  getValueSetByName = async( theServer, theName) => {
                "\"  wasn't found in the vocabulary \"" + theSystem + "\".");
         } else {
             myJson = await response.json();
-            i=0
-            var resource = myJson['entry'][i]['resource']
-            if (resource) {
-                document.getElementById('output-valueset-url').value = "URL:  " + resource['url'];             
-                document.getElementById('output-valueset-id').value =  "id:   " + resource['id'];            
-                document.getElementById('output-valueset-name').value = "NAME: " + resource['name'];              
+            if (myJson['total'] < 1) {
+                alert("ValueSet " + theName + " not found")
+            } else {
+                i=0
+                var resource = myJson['entry'][i]['resource']
+                if (resource) {
+                    document.getElementById('output-valueset-url').value =  resource['url'];             
+                    document.getElementById('output-valueset-id').value =   resource['id'];            
+                    document.getElementById('output-valueset-name').value = "\"" + resource['name'] + "\"";              
+                    compose_string = await stringifyCompose(resource);
+                    document.getElementById('output-valueset-content').value =  compose_string
+                }
+            }
+        }
+    }
+    catch (error)  {
+        alert(error + "\n That server, \"" + theServer + "\" isn't happy. Please try another, or ask for help.");
+    }
+
+    return myJson;
+}
+const  getValueSetById = async( theServer, theId) => {
+
+    //const requestString = theServer + "/ValueSet" +  "?_id=\"" + theId + "\""
+    const requestString = theServer + "/ValueSet" +  "?_id=" + theId
+    var myJson=""
+    try {
+        response = await fetch(requestString, myHeaders)
+        
+        my_desig = []
+        if (!response.ok) {
+            alert("ERROR status:" + response.status + 
+               ", text: \"" + response.statusText + "\"" +
+               "\n\nCheck the code and selected vocabulary.  Most likely the code \"" + theCode + 
+               "\"  wasn't found in the vocabulary \"" + theSystem + "\".");
+        } else {
+            myJson = await response.json();
+            if (myJson['total'] < 1) {
+                alert("ValueSet with id " + theId + " not found.")
+            } else {
+                i=0
+                var resource = myJson['entry'][i]['resource']
+                if (resource) {
+                    document.getElementById('output-valueset-url').value = resource['url'];             
+                    document.getElementById('output-valueset-id').value =  resource['id'];            
+                    document.getElementById('output-valueset-name').value = "\"" + resource['name'] + "\"";              
+                    compose_string = await stringifyCompose(resource);
+                    document.getElementById('output-valueset-content').value = compose_string
+                }
             }
         }
     }
@@ -221,7 +285,6 @@ const  getCodeSystemByName = async( theServer, theName) => {
                "\"  wasn't found in the vocabulary \"" + theSystem + "\".");
         } else {
             myJson = await response.json();
-            console.log(JSON.stringify(myJson))
             i=0
             var resource = myJson['entry'][i]['resource']
             //if (resource) {
@@ -277,7 +340,7 @@ parse_valuesets= function(json) {
         thing = json.entry[obj]
         string_rep +=  
           "URL: " + thing.resource.url + "   " +
-          "NAME: " + thing.resource.name + "<br>" 
+          "NAME: \"" + thing.resource.name + "\"<br>" 
     }
     return(string_rep)
 }

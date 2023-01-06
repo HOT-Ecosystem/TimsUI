@@ -251,7 +251,7 @@ parse_valuesets= function(json) {
         thing = json.entry[obj]
         string_rep +=  
           "URL: " + thing.resource.url + "   " +
-          "NAME: " + thing.resource.name + "<br>" 
+          "NAME: \"" + thing.resource.name + "\"<br>" 
     }
     return(string_rep)
 }
