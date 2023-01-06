@@ -346,15 +346,6 @@ parse_valuesets= function(json) {
 }
 
 
-query_capabilities = async(theServer) =>  {
-    const request_string = theServer + "/metadata" 
-    myJson = await do_fetch(request_string)
-    valueset_text = await loop_over_pages(myJson, parse_valuesets)
-    var newWin = window.open()
-    newWin.document.write(valueset_text);
-    newWin.document.close()
-}
-
 query_loaded_valuesets = async(theServer) =>  {
     const request_string = theServer + "/ValueSet?_summary=true" 
     myJson = await do_fetch(request_string)

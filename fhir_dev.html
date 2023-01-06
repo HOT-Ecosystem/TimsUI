@@ -14,7 +14,6 @@
     <body>
     <center><h1>Query a FHIR Terminology Server <em>by Codes</em> </h1></center>
     see also <a href="value_sets.html">Query ValueSets</a><br>
-    and <a href="code_systems.html">Query CodeSystems</a><br>
     and <a href="/fhir/swagger-ui/index.html">Swagger</a><br>
     </p>
     <center>
@@ -47,31 +46,6 @@
             <td></td>
             <td colspan=2>
                 <button type="submit" onClick="query_loaded_codesystems(document.getElementById('server').value)" disabled>Show Loaded CodeSystems (pop-up)</button>
-            </td>
-        </tr>
-        <tr>
-            <td colspan=2>&nbsp </td>
-            <td></td>
-            <td colspan=2>
-                <button type="submit" onClick="query_capabilities(document.getElementById('server').value)" disabled>Show Capabilities (pop-up, long)</button>
-            </td>
-        </tr>
-        <tr>
-            <td colspan=2>&nbsp </td>
-            <td></td>
-            <td colspan=2>
-                <button type="submit" 
-                    onClick="query_loaded_IGs(document.getElementById('server').value)" disabled> 
-                    Show Loaded IGs (Hapi doesn't keep them?) (pop-up)</button>
-            </td>
-        </tr>
-        <tr>
-            <td colspan=2>&nbsp </td>
-            <td></td>
-            <td colspan=2>
-                <button type="submit" 
-                    onClick="query_loaded_SDs(document.getElementById('server').value)" disabled> 
-                    Show Loaded StructureDefinitions  (pop-up)</button>
             </td>
         </tr>
         <tr> <td colspan=3>&nbsp </td> </tr>
@@ -112,7 +86,7 @@
                 <button type="submit" onClick="getFhirDetail( 
                     document.getElementById('server').value, 
                     document.getElementById('system').value, 
-                    document.getElementById('code').value)" disabled >Search, with detailed output (pop-up)</button>
+                    document.getElementById('code').value)" >Search, with detailed output (pop-up)</button>
             </td>
         </tr>
         <tr>
@@ -155,7 +129,7 @@
             <td>
                 <button type="submit" onClick="getValueSetRawByCode( 
                     document.getElementById('server').value, 
-                    document.getElementById('code').value)" disabled>Search for ValueSets that contain this code. (raw pop-up)</button>
+                    document.getElementById('code').value)">Search for ValueSets that contain this code. (raw pop-up)</button>
             </td>
         </tr>
         <tr>
