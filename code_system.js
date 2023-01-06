@@ -3,7 +3,6 @@ const clearValueSetsDisplay = function()  {
     document.getElementById('output-valueset-url').value = ""
     document.getElementById('output-valueset-id').value = ""
     document.getElementById('output-valueset-name').value = ""
-    document.getElementById('output-valueset-content').value = ""
 }
 
 do_fetch = async(url) => {
@@ -83,7 +82,6 @@ const  getValueSetRawByCode = async( theServer, theCode) => {
     const requestString = theServer + "/ValueSet" + "?code=" + theCode
     var myJson=""
     var response;
-    alert(requestString)
     try {
         response = await fetch(requestString, myHeaders)
         my_desig = []
@@ -125,13 +123,18 @@ const  getValueSetSummaryByCode = async( theServer, theCode) => {
                "\"  wasn't found in the vocabulary \"" + theSystem + "\".");
         } else {
             myJson = await response.json();
-            for (i in myJson['entry']) {
-                var resource = myJson['entry'][i]['resource']
-                text +=  resource['url']   + " "             
-                //text += resource['id']     + " \n"            
-                text +=  resource['name'] + "\" \n"              
-             }
-             document.getElementById('output-value-set').value = text;
+            //for (i in myJson['entry']) {
+            //    var resource = myJson['entry'][i]['resource']
+            //    text +=  resource['url']   + " "             
+            //    //text += resource['id']     + " \n"            
+            //    text +=  resource['name'] + "\" \n"              
+            // }
+
+            i=0
+            var resource = myJson['entry'][i]['resource']
+            document.getElementById('output-valueset-id').value = resource['id'];
+            document.getElementById('output-valueset-url').value = resource['url']
+            document.getElementById('output-valueset-name').value = resource['name']
         }
     }
     catch (error)  {
@@ -140,8 +143,8 @@ const  getValueSetSummaryByCode = async( theServer, theCode) => {
 
     return myJson;
 }
-/***
 
+/***
 {   
     "resourceType":"Bundle",
     "id":"d515cc74-9051-4073-87d1-0a3d0569f2f0",

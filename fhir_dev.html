@@ -121,7 +121,7 @@
             <td >
                 <button type="submit" onClick="getValueSetSummaryByCode( 
                     document.getElementById('server').value, 
-                    document.getElementById('code').value)">Search for ValueSets that contain this code.</button>
+                    document.getElementById('code').value)">Search for first ValueSet that contains this code.</button>
             </td>
         </tr>
         <tr>
@@ -129,13 +129,25 @@
             <td>
                 <button type="submit" onClick="getValueSetRawByCode( 
                     document.getElementById('server').value, 
-                    document.getElementById('code').value)">Search for ValueSets that contain this code. (raw pop-up)</button>
+                    document.getElementById('code').value)">Search for all ValueSets that contain this code. (raw pop-up)</button>
             </td>
         </tr>
-        <tr>
-            <td colspan=2>&nbsp</td>
-            <td colspan=3><output id="output-value-set" class="multiline"></output></td>
+        <tr> 
+            <td colspan=2>&nbsp</td> 
+            <td>id:</td>
+            <td colspan=2><output id="output-valueset-id" class="multiline"></output></td> 
         </tr>
+        <tr> 
+            <td colspan=2>&nbsp</td> 
+            <td>name:</td>
+            <td colspan=2><output id="output-valueset-name" class="multiline"></output></td> 
+        </tr>
+        <tr> 
+            <td colspan=2>&nbsp</td> 
+            <td>url:</td>
+            <td colspan=2><output id="output-valueset-url" class="multiline"></output></td> 
+        </tr>
+
         <tr> <td colspan=3>&nbsp </td> </tr>
         <tr>
             <td colspan=3> &nbsp &nbsp &nbsp &nbsp </td>
