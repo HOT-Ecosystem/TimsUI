@@ -23,21 +23,10 @@
             <td colspan=1><label for="server">Server:</label></td>
             <td>
                 <select name="server" id="server">
-                    <!--
-                    <option value="http://20.119.216.32:8000/r4">TIMS main</option>
-                    <option value="http://20.119.216.32:8080/r4">TIMS 8080/r4</option>
-                    <option value="http://20.119.216.32:8888/fhir">TIMS Shahim</option>
-                    -->
-
-                    <option value="http://20.119.216.32:8080/fhir">TIMS 8080/fhir</option>
+                    <option value="http://20.119.216.32:8080/fhir">TIMS 8888</option>
+                    <option value="http://20.119.216.32:8080/fhir">TIMS 8080</option>
                     <option value="http://20.119.216.32:8001/fhir">TIMS 8001</option>
-
-
-                    <option value="http://127.0.0.1:8080/fhir">local 8080</option>
                     <option value="http://127.0.0.1:8001/fhir">local 8001</option>
-                    <option value="http://tx.hl7.org">tx.hl7.org</option>
-                    <option value="http://hapi.fhir.org">hapi.fhir.org</option>
-                    <option value="http://loinc.fhir.org">loinc.fhir.org</option>
                 </select> 
             </td>
         </tr>
@@ -45,7 +34,7 @@
             <td colspan=2>&nbsp </td>
             <td></td>
             <td colspan=2>
-                <button type="submit" onClick="query_loaded_codesystems(document.getElementById('server').value)" disabled>Show Loaded CodeSystems (pop-up)</button>
+                <button type="submit" onClick="query_loaded_codesystems(document.getElementById('server').value)">Show Loaded CodeSystems (pop-up)</button>
             </td>
         </tr>
         <tr> <td colspan=3>&nbsp </td> </tr>
@@ -54,6 +43,7 @@
             <td colspan=1><label for="system">System:</label></td>
             <td><select name="system" id="system">
               <option value="http://loinc.org">LOINC</option>
+              <option value="http://loinc.org/part">comp-loinc</option>
               <option value="http://snomed.info/sct">SNOMED</option>
               <option value="http://hl7.org/fhir/sid/icd-10-cm">ICD-10 CM</option>
               <option value="http://purl.obolibrary.org/obo/hp.fhir">HP</option>
