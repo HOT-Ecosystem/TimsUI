@@ -13,6 +13,7 @@
 
     <body>
     <center><h1>Query a FHIR Terminology Server for <em>ValueSets</em>  </h1></center>
+    back to <a href="fhir_dev.html">Query CodeSystems</a><br>
     </p>
     <center>
     <table>
@@ -21,13 +22,10 @@
             <td colspan=1><label for="server">Server:</label></td>
             <td>
                 <select name="server" id="server">
+                    <option value="http://20.119.216.32:8888/fhir">TIMS 8888</option>
                     <option value="http://20.119.216.32:8080/fhir">TIMS 8080</option>
                     <option value="http://20.119.216.32:8001/fhir">TIMS 8001</option>
-                    <option value="http://127.0.0.1:8080/fhir">local 8080</option>
                     <option value="http://127.0.0.1:8001/fhir">local 8001</option>
-                    <option value="http://tx.hl7.org">Tx.Hl7.org</option>
-                    <option value="http://hapi.fhir.org">hapi.fhir.org</option>
-                    <option value="http://loinc.fhir.org">loinc.fhir.org</option>
                 </select> 
             </td>
         </tr>
@@ -37,7 +35,7 @@
             <td colspan=2>
                 <button type="submit" 
                        onClick="query_loaded_valuesets(document.getElementById('server').value)" 
-                       disabled>Show Loaded ValueSets (pop-up, slow)</button>
+                       >Show Loaded ValueSets (pop-up, slow)</button>
             </td>
         </tr>
         <tr> <td colspan=3>&nbsp </td> </tr>
