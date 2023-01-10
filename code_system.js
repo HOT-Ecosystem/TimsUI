@@ -374,7 +374,7 @@ query_loaded_codesystems = async(theServer) => {
     //alert(JSON.stringify(myJson))
     codesystem_text = await loop_over_pages(myJson, parse_valuesets)
     var newWin = window.open()
-    newWin.document.write(JSON.stringify(myJson));
+    newWin.document.write(parse_code_systems(myJson));
     newWin.document.close()
 }
 
