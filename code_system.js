@@ -57,6 +57,25 @@ get_next_link = function(bundle) {
     return null;
 }
 
+loop_over_pages_await = async(bundle, fn) => {
+    var valueset_text=''
+    valueset_text += await fn(bundle);
+    next_link = get_next_link(bundle);
+    var i=1
+    while (next_link) { //  && i < 5) {
+        bundle = await do_fetch(next_link);
+        if (bundle) {
+            valueset_text += fn(bundle);
+            next_link = await get_next_link(bundle);
+            i += 1
+        }
+        else {
+            alert("didn't get on from do_fetch");
+            next_link = null;
+        }
+    }
+    return(valueset_text)
+}
 loop_over_pages = async(bundle, fn) => {
     var valueset_text=''
     valueset_text += fn(bundle);
@@ -178,20 +197,33 @@ const  getValueSetSummaryByCode = async( theServer, theCode) => {
 }
 ***/
 
-const stringifyCompose = async(resource) => {
-
-    const comp_inc = resource['compose']['include'];              
-    var output='';
-    for (idx in comp_inc) {
-        system_part = comp_inc[idx]['system']
-        output += "CodeSystem: " + system_part + "\n"
-        concept_list = comp_inc[idx]['concept']
-        for (cpt_idx in concept_list) {
-            cpt = concept_list[cpt_idx]
-            output +=  "  code: " + cpt['code'] + " display: \"" + cpt['display'] + "\"\n"
-        }
+const stringifyComposeNL = async(resource) => {
+    return(await stringifyCompose(resource, "\n"))
+}
+const stringifyComposeBr = async(resource) => {
+    return(await stringifyCompose(resource, "<br>"))
+}
+const stringifyCompose = async(resource, lineBreak) => {
+    if (resource['compose'] === undefined) {
+        return("(no compose part)")
     }
-    return(output)
+    else if (resource['compose']['include'] === undefined) {
+        return("(no include part)")
+    }
+    else {
+        const comp_inc = resource['compose']['include'];              
+        var output='';
+        for (idx in comp_inc) {
+            system_part = comp_inc[idx]['system']
+            output += "CodeSystem: " + system_part + "\n"
+            concept_list = comp_inc[idx]['concept']
+            for (cpt_idx in concept_list) {
+                cpt = concept_list[cpt_idx]
+                output +=  "  code: " + cpt['code'] + " display: \"" + cpt['display'] + "\"" + lineBreak
+            }
+        }
+        return(output)
+    }
 }
 
 const  getValueSetByName = async( theServer, theName) => {
@@ -219,7 +251,7 @@ const  getValueSetByName = async( theServer, theName) => {
                     document.getElementById('output-valueset-url').value =  resource['url'];             
                     document.getElementById('output-valueset-id').value =   resource['id'];            
                     document.getElementById('output-valueset-name').value = "\"" + resource['name'] + "\"";              
-                    compose_string = await stringifyCompose(resource);
+                    compose_string = await stringifyComposeNL(resource);
                     document.getElementById('output-valueset-content').value =  compose_string
                 }
             }
@@ -256,7 +288,7 @@ const  getValueSetById = async( theServer, theId) => {
                     document.getElementById('output-valueset-url').value = resource['url'];             
                     document.getElementById('output-valueset-id').value =  resource['id'];            
                     document.getElementById('output-valueset-name').value = "\"" + resource['name'] + "\"";              
-                    compose_string = await stringifyCompose(resource);
+                    compose_string = await stringifyComposeNL(resource); // CHRIS
                     document.getElementById('output-valueset-content').value = compose_string
                 }
             }
@@ -267,6 +299,43 @@ const  getValueSetById = async( theServer, theId) => {
     }
 
     return myJson;
+}
+
+
+
+query_loaded_valuesets_by_id = async(theServer, theId) => {
+    const request_string = theServer + "/ValueSet?_id=" + theId
+    myJson = await do_fetch(request_string)
+    valueset_text = await loop_over_pages_await(myJson, parse_valuesets_detail)
+    var newWin = window.open()
+    newWin.document.write(valueset_text);
+    newWin.document.close()
+}
+query_raw_loaded_valuesets_by_id = async(theServer, theId) => {
+    const request_string = theServer + "/ValueSet?_id=" + theId
+    myJson = await do_fetch(request_string)
+    valueset_text = await loop_over_pages_await(myJson, parse_valuesets_raw)
+    var newWin = window.open()
+    newWin.document.write(valueset_text);
+    newWin.document.close()
+}
+query_loaded_valuesets_by_name = async(theServer, theName) => {
+    const request_string = theServer + "/ValueSet" +  "?_content=" + theName + ""
+    myJson = await do_fetch(request_string)
+    valueset_text = await loop_over_pages_await(myJson, parse_valuesets_detail)
+    var newWin = window.open()
+    newWin.document.write(valueset_text);
+    newWin.document.close()
+}
+// CHRIS
+query_raw_loaded_valuesets_by_name = async(theServer, theName) => {
+    const request_string = theServer + "/ValueSet" +  "?_content=" + theName + ""
+    //const request_string = theServer + "/ValueSet?_name=" + theName
+    myJson = await do_fetch(request_string)
+    valueset_text = await loop_over_pages_await(myJson, parse_valuesets_raw)
+    var newWin = window.open()
+    newWin.document.write(valueset_text);
+    newWin.document.close()
 }
 
 const  getCodeSystemByName = async( theServer, theName) => {
@@ -337,6 +406,23 @@ const  getCodeSystemByName = async( theServer, theName) => {
 **/
 
 
+parse_valuesets_raw= function(json){
+    return(JSON.stringify(json))
+}
+parse_valuesets_detail= async(json) => {
+    string_rep = "" 
+    for (obj in json.entry) {
+        thing = json.entry[obj]
+        compose_string = await stringifyComposeBr(thing.resource);
+        string_rep +=  
+          "ID: " + thing.resource.id + "   " +
+          "URL: " + thing.resource.url + "   " +
+          "NAME: \"" + thing.resource.name + "\"<br>" 
+        string_rep += compose_string + "<br>"  
+    }
+    return(string_rep)
+}
+
 parse_valuesets= function(json) {
     string_rep = "" 
     for (obj in json.entry) {
@@ -365,7 +451,6 @@ query_loaded_valuesets_by_system = async(theServer, theSystem) => {
     var newWin = window.open()
     newWin.document.write(valueset_text);
     newWin.document.close()
-
 }
 
 query_loaded_codesystems = async(theServer) => {

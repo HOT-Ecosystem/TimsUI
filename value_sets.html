@@ -41,10 +41,7 @@
         <tr> <td colspan=3>&nbsp </td> </tr>
 
 
-<!--TBD: <button type="submit" onClick="query_loaded_valuesets_by_system(document.getElementById('server').value, 
-                                                                                document.getElementById('system').value)">
-                    Show Loaded ValueSets (pop-up)</button>
--->
+<!--TBD: <button type="submit" onClick="query_loaded_valuesets_by_system(document.getElementById('server').value, document.getElementById('system').value)"> Show Loaded ValueSets (pop-up)</button> -->
 
 
         <tr>
@@ -57,7 +54,21 @@
             <td><button type="submit" 
                  onClick="getValueSetByName( document.getElementById('server').value, document.getElementById('name').value)" >Search for ValueSet</button></td>
         </tr>
+        <tr>
+            <td colspan=3><em>Click to search.</em> </td>
+            <td><button type="submit" 
+                 onClick="query_loaded_valuesets_by_name( document.getElementById('server').value, document.getElementById('name').value)" >Search for ValueSet (pop-up)</button></td>
+        </tr>
+        <tr>
+            <td colspan=3><em>Click to search.</em> </td>
+            <td><button type="submit" 
+                 onClick="query_raw_loaded_valuesets_by_name( document.getElementById('server').value, document.getElementById('name').value)" >Search for ValueSet (pop-up, raw)</button></td>
+        </tr>
+
+
         <tr><td>&nbsp</td></tr>
+
+
         <tr>
             <td colspan=2><em>Specify a ValueSet id to lookup. &nbsp; &nbsp; &nbsp; &nbsp;  </em> </td>
             <td colspan=1><label for="vs_id">ValueSet ID:</label></td>
@@ -67,6 +78,16 @@
             <td colspan=3><em>Click to search.</em> </td>
             <td><button type="submit" 
                  onClick="getValueSetById( document.getElementById('server').value, document.getElementById('vs_id').value)" >Search for ValueSet</button></td>
+        </tr>
+        <tr>
+            <td colspan=3><em>Click to search.</em> </td>
+            <td><button type="submit" 
+                 onClick="query_loaded_valuesets_by_id( document.getElementById('server').value, document.getElementById('vs_id').value)" >Search for ValueSet (pop-up)</button></td>
+        </tr>
+        <tr>
+            <td colspan=3><em>Click to search.</em> </td>
+            <td><button type="submit" 
+                 onClick="query_raw_loaded_valuesets_by_id( document.getElementById('server').value, document.getElementById('vs_id').value)" >Search for ValueSet (pop-up, raw)</button></td>
         </tr>
 
         <tr><td>&nbsp</td></tr>
@@ -121,6 +142,10 @@
         <tr><td colspan=5>Sample LOINC ValueSet desc: MG_1_Genetic variant, ID: LL377-3</td></tr>
         <tr><td colspan=5>Sample LOINC ValueSet desc: ACMG_Clinical significance of genetic variation, ID: LL4034-6</td></tr>
         <tr><td colspan=5>Sample LOINC ValueSet desc: PhenX05_13_30D bread amt, ID: LL1000-0</td></tr>
+
+        <tr><td colspan=5>Sample THO ValueSet name: HL7VSContactRole2, ID: v2-0131</td></tr>
+        <tr><td colspan=5>Sample THO ValueSet name: HumanLanguage, ID: v3-HumanLanguage</td></tr>
+        <tr><td colspan=5>Sample THO ValueSet name: AdministrativeGender, ID: v3-AdministrativeGender</td></tr>
         <tr><td colspan=5>&nbsp</td></tr>
     </table>
     </center>
